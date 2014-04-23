@@ -20,6 +20,12 @@ from decimal import Decimal
 from decimal import getcontext
 from populate import *
 
+import spia.internationalizator as internationalizator
+from spia.internationalizator import _
+
+LOCALE_DIR = os.path.join(sys.path[0], "locale")
+internationalizator.load_locale_chains(LOCALE_DIR)
+
 class main:
     def __init__(self):
         ui_path=os.path.join(sys.path[0],"gui/main.glade")
@@ -30,6 +36,16 @@ class main:
         self.builder.connect_signals(self)
         window.connect("destroy", self.quit)
         #window.connect("row-activated", self.new_package_selected)
+
+        #labels
+        self.get_widget("radiobutton1").set_label(_("Manual"))
+        self.get_widget("radiobutton2").set_label(_("Auto"))
+        self.get_widget("label1").set_label(_("Keyword(s)")+":")
+        self.get_widget("label2").set_label(_("Security")+":")
+        self.get_widget("label3").set_label(_("Words count")+":")
+        self.get_widget("label5").set_label(_("Create")+":")
+        self.get_widget("label4").set_label(_("Security")+":")
+        self.get_widget("button1").set_label(_("Generate")+":")
         window.show_all()
 
     def quit(self, widget):
@@ -85,26 +101,26 @@ class main:
         #print fraction/100
         progress.set_fraction(fraction/100)
         if fraction <= 35:
-            progress.set_text("Muy Débil")
+            progress.set_text(_("Very week"))
         elif fraction > 35 and fraction < 75:
-            progress.set_text("Débil")
+            progress.set_text(_("Week"))
         elif fraction >= 75 and fraction < 100:
-            progress.set_text("Media")
+            progress.set_text(_("Middle"))
         elif fraction >= 100:
-            progress.set_text("Fuerte")
+            progress.set_text(_("Strong"))
 
     def on_entry2_changed(self, widget):
         progress = self.get_widget("progressbar2")
         fraction = password_maker.how_secure(widget.get_text())
         progress.set_fraction(fraction/100)
         if fraction <= 35:
-            progress.set_text("Muy Débil")
+            progress.set_text(_("Very week"))
         elif fraction > 35 and fraction < 75:
-            progress.set_text("Débil")
+            progress.set_text(_("Week"))
         elif fraction >= 75 and fraction < 100:
-            progress.set_text("Media")
+            progress.set_text(_("Middle"))
         elif fraction >= 100:
-            progress.set_text("Fuerte")
+            progress.set_text(_("Strong"))
 
 
 #if __name__ == '__main__':
